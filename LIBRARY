@@ -1,0 +1,1035 @@
+
+mysql> CREATE DATABASE Library_5CS1_B;
+Query OK, 1 row affected (0.21 sec)
+
+
+mysql> CREATE TABLE PUBLISHER(NAME VARCHAR(10) PRIMARY KEY,ADDRESS VARCHAR(20),PHONE INT);
+ERROR 1046 (3D000): No database selected
+mysql> USE Library_5CS1_B;
+Database changed
+
+mysql> CREATE TABLE PUBLISHER(NAME VARCHAR(10) PRIMARY KEY,ADDRESS VARCHAR(20),PHONE INT);
+Query OK, 0 rows affected (1.24 sec)
+
+mysql> SHOW TABLES;
++--------------------------+
+| Tables_in_Library_5CS1_B |
++--------------------------+
+| PUBLISHER                |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE LIBRARY_PROGRAMME(PROGRAMME_ID INT PRIMARY KEY,BRANCH_NAME VARCHAR(10),ADDRESS VARCHAR(20));
+Query OK, 0 rows affected (0.49 sec)
+
+mysql> SHOW TABLES;
++--------------------------+
+| Tables_in_Library_5CS1_B |
++--------------------------+
+| LIBRARY_PROGRAMME        |
+| PUBLISHER                |
++--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC LIBRARY_PROGRAMME;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| PROGRAMME_ID | int(11)     | NO   | PRI | NULL    |       |
+| BRANCH_NAME  | varchar(10) | YES  |     | NULL    |       |
+| ADDRESS      | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.16 sec)
+
+mysql> DESC PUBLISHER;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| NAME    | varchar(10) | NO   | PRI | NULL    |       |
+| ADDRESS | varchar(20) | YES  |     | NULL    |       |
+| PHONE   | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> CREATE TABLE BOOK(BOOK_ID INT PRIMARY KEY,TITLE VARCHAR(10),PUBLISHER_NAME VARCHAR(20),PUB_YEAR INT,FOREIGN KEY(PUBLISHER_NAME)REFERENCES PUBLISHER(NAME));
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> DESC BOOK;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| BOOK_ID        | int(11)     | NO   | PRI | NULL    |       |
+| TITLE          | varchar(10) | YES  |     | NULL    |       |
+| PUBLISHER_NAME | varchar(20) | YES  | MUL | NULL    |       |
+| PUB_YEAR       | int(11)     | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> DROP  BOOK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'BOOK' at line 1
+
+mysql> DROP TABLE  BOOK;
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> CREATE TABLE BOOK(BOOK_ID INT PRIMARY KEY,TITLE VARCHAR(10),PUBLISHER_NAME VARCHAR(20),PUB_YEAR INT,FOREIGN KEY(PUBLISHER_NAME)REFERENCES PUBLISHER(NAME) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> DESC BOOK;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| BOOK_ID        | int(11)     | NO   | PRI | NULL    |       |
+| TITLE          | varchar(10) | YES  |     | NULL    |       |
+| PUBLISHER_NAME | varchar(20) | YES  | MUL | NULL    |       |
+| PUB_YEAR       | int(11)     | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE BOOK_AUTHOR(BOOK_ID INT PRIMARY KEY,AUTHOR_NAME VARCHAR(10),FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOOK_ID) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> CREATE TABLE BOOK_COPIES(BOOK_ID INT PRIMARY KEY,PROGRAMME_ID INT,NO_OF_COPIES INT,FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOO
+K_ID) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> SHOW TABLES;
++--------------------------+
+| Tables_in_Library_5CS1_B |
++--------------------------+
+| BOOK                     |
+| BOOK_AUTHOR              |
+| BOOK_COPIES              |
+| LIBRARY_PROGRAMME        |
+| PUBLISHER                |
++--------------------------+
+5 rows in set (0.00 sec)
+
+mysql> DESC BOOK_AUTHOR;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| BOOK_ID     | int(11)     | NO   | PRI | NULL    |       |
+| AUTHOR_NAME | varchar(10) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> DESC BOOK_COPIES;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| BOOK_ID      | int(11) | NO   | PRI | NULL    |       |
+| PROGRAMME_ID | int(11) | YES  |     | NULL    |       |
+| NO_OF_COPIES | int(11) | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> DROP TABLE BOOK_COPIES;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> CREATE TABLE BOOK_COPIES(BOOK_ID INT PRIMARY KEY,PROGRAMME_ID INT,NO_OF_COPIES INT,FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOOK_ID) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> DESC BOOK_COPIES;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| BOOK_ID      | int(11) | NO   | PRI | NULL    |       |
+| PROGRAMME_ID | int(11) | YES  |     | NULL    |       |
+| NO_OF_COPIES | int(11) | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE BOOK_LENDING(BOOK_ID INT,PROGRAMME_ID INT,CARD_NO INT,DATE_OUT DATE,DUE_DATE DATE,PRIMARY KEY(BOOK_ID,PROGRAMME_ID,CARD_NO), FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOOK_ID), FOREIGN KEY(PROGRAMME_ID)REFERENCES LIBRARY_PROGRAMME(PROGRAMME_ID)
+ ON DELETE CASCADE);
+Query OK, 0 rows affected (0.99 sec)
+
+mysql> DESC BOOK_LENDING;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| BOOK_ID      | int(11) | NO   | PRI | NULL    |       |
+| PROGRAMME_ID | int(11) | NO   | PRI | NULL    |       |
+| CARD_NO      | int(11) | NO   | PRI | NULL    |       |
+| DATE_OUT     | date    | YES  |     | NULL    |       |
+| DUE_DATE     | date    | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql> DROP TABLE BOOK_COPIES;
+Query OK, 0 rows affected (0.17 sec)
+
+
+mysql> CREATE TABLE BOOK_COPIES(BOOK_ID INT ,PROGRAMME_ID INT,NO_OF_COPIES INT,PRIMARY KEY(BOOK_ID,PROGRAMME_ID), FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOOK_ID), FOREIGN KEY(PROGRAMME_ID)REFERENCES LIBRARY_PROGRAMME(PROGRAMME_ID) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.63 sec)
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+04-NOV-2021:
+
+mite@mite-dx2480-MT:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+
+mysql> USE Library_5CS1_B;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++--------------------------+
+| Tables_in_Library_5CS1_B |
++--------------------------+
+| BOOK                     |
+| BOOK_AUTHOR              |
+| BOOK_COPIES              |
+| BOOK_LENDING             |
+| LIBRARY_PROGRAMME        |
+| PUBLISHER                |
++--------------------------+
+6 rows in set (0.00 sec)
+
+mysql> DESC BOOK_AUTHOR;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| BOOK_ID     | int(11)     | NO   | PRI | NULL    |       |
+| AUTHOR_NAME | varchar(10) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+2 rows in set (0.44 sec)
+
+mysql> DESC BOOK;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| BOOK_ID        | int(11)     | NO   | PRI | NULL    |       |
+| TITLE          | varchar(10) | YES  |     | NULL    |       |
+| PUBLISHER_NAME | varchar(20) | YES  | MUL | NULL    |       |
+| PUB_YEAR       | int(11)     | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> DESC LIBRARY_PROGRAMME;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| PROGRAMME_ID | int(11)     | NO   | PRI | NULL    |       |
+| BRANCH_NAME  | varchar(10) | YES  |     | NULL    |       |
+| ADDRESS      | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> DESC PUBLISHER;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| NAME    | varchar(10) | NO   | PRI | NULL    |       |
+| ADDRESS | varchar(20) | YES  |     | NULL    |       |
+| PHONE   | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+
+mysql> DESC BOOK_LENDING;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| BOOK_ID      | int(11) | NO   | PRI | NULL    |       |
+| PROGRAMME_ID | int(11) | NO   | PRI | NULL    |       |
+| CARD_NO      | int(11) | NO   | PRI | NULL    |       |
+| DATE_OUT     | date    | YES  |     | NULL    |       |
+| DUE_DATE     | date    | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> DESC BOOK_COPIES;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| BOOK_ID      | int(11) | NO   | PRI | NULL    |       |
+| PROGRAMME_ID | int(11) | NO   | PRI | NULL    |       |
+| NO_OF_COPIES | int(11) | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO BOOK VALUES(101,"DBMS","SBC",2014);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`Library_5CS1_B`.`BOOK`, CONSTRAINT `BOOK_ibfk_1` FOREIGN KEY (`PUBLISHER_NAME`) REFERENCES `PUBLISHER` (`NAME`) ON DELETE CASCADE)
+
+
+mysql> INSERT INTO PUBLISHER VALmysql> SELECT SUM(NO_OF_COPIES) FROM BOOK_COPIES;
++-------------------+
+| SUM(NO_OF_COPIES) |
++-------------------+
+|              2400 |
++-------------------+
+1 row in set (0.02 sec)
+
+UES("PEARSON","CHENNAI",8732151108);
+ERROR 1264 (22003): Out of range value for column 'PHONE' at row 1
+
+
+mysql> ALTER TABLE LIBRARY_PROGRAMME CHANGE COLUMN BRANCH_NAME PROGRAMME_NAME VARCHAR(20);
+Query OK, 0 rows affected (0.38 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC LIBRARY_PROGRAMME;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| PROGRAMME_ID   | int(11)     | NO   | PRI | NULL    |       |
+| PROGRAMME_NAME | varchar(20) | YES  |     | NULL    |       |
+| ADDRESS        | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PUBLISHER  CHANGE COLUMN PHONE PHONE  BIGINT;
+Query OK, 0 rows affected (1.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC PUBLISHER;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| NAME    | varchar(10) | NO   | PRI | NULL    |       |
+| ADDRESS | varchar(20) | YES  |     | NULL    |       |
+| PHONE   | bigint(20)  | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO PUBLISHER VALUES("PEARSON","CHENNAI",8732151108);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO PUBLISHER VALUES("SBC","MANGALORE",9846543131);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PUBLISHER VALUES("CELLO","MANGALORE",9923154321);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO PUBLISHER VALUES("McGRALL","BANGALORE",7831132331);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO PUBLISHER VALUES("DC","KERALA",6789843535);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM PUBLISHER;
++---------+-----------+------------+
+| NAME    | ADDRESS   | PHONE      |
++---------+-----------+------------+
+| CELLO   | MANGALORE | 9923154321 |
+| DC      | KERALA    | 6789843535 |
+| McGRALL | BANGALORE | 7831132331 |
+| PEARSON | CHENNAI   | 8732151108 |
+| SBC     | MANGALORE | 9846543131 |
++---------+-----------+------------+
+5 rows in set (0.02 sec)
+
+mysql> INSERT INTO LIBRARY_PROGRAMME  VALUES(10,"P1","MANGALORE");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO LIBRARY_PROGRAMME  VALUES(11,"P2","CHENNAI");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO LIBRARY_PROGRAMME  VALUES(12,"P3","DELHI");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO LIBRARY_PROGRAMME  VALUES(13,"P4","BANGALORE");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO LIBRARY_PROGRAMME  VALUES(14,"P5","KERALA");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM LIBRARY_PROGRAMME;
++--------------+----------------+-----------+
+| PROGRAMME_ID | PROGRAMME_NAME | ADDRESS   |
++--------------+----------------+-----------+
+|           10 | P1             | MANGALORE |
+|           11 | P2             | CHENNAI   |
+|           12 | P3             | DELHI     |
+|           13 | P4             | BANGALORE |
+|           14 | P5             | KERALA    |
++--------------+----------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO BOOK  VALUES(101,"DBMS","SBC",2014);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK  VALUES(102,"ADE","PEARSON",2016);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK  VALUES(103,"DS","PEARSON",2016);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO BOOK  VALUES(104,"NET","SBC",2016);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK  VALUES(105,"JAVA","SBC",2013);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM BOOK;
++---------+-------+----------------+----------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------+----------------+----------+
+|     101 | DBMS  | SBC            |     2014 |
+|     102 | ADE   | PEARSON        |     2016 |
+|     103 | DS    | PEARSON        |     2016 |
+|     104 | NET   | SBC            |     2016 |
+|     105 | JAVA  | SBC            |     2013 |
++---------+-------+----------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(105,"RAHUL");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> DELETE FROM BOOK_AUTHOR WHERE AUTHOR_NAME="RAHUL";
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(101,"RAHUL");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(102,"RAMEZ");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(103,"JOHN");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(104,"PRIYA");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK_AUTHOR  VALUES(105,"DANCY");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM BOOK_AUTHOR;
++---------+-------------+
+| BOOK_ID | AUTHOR_NAME |
++---------+-------------+
+|     101 | RAHUL       |
+|     102 | RAMEZ       |
+|     103 | JOHN        |
+|     104 | PRIYA       |
+|     105 | DANCY       |
++---------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO BOOK_COPIES VALUES(101,10,200);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO BOOK_COPIES VALUES(102,11,400);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO BOOK_COPIES VALUES(101,11,500);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK_COPIES VALUES(103,12,600);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_COPIES VALUES(103,11,700);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM BOOK_COPIES;
++---------+--------------+--------------+
+| BOOK_ID | PROGRAMME_ID | NO_OF_COPIES |
++---------+--------------+--------------+
+|     101 |           10 |          200 |
+|     101 |           11 |          500 |
+|     102 |           11 |          400 |
+|     103 |           11 |          700 |
+|     103 |           12 |          600 |
++---------+--------------+--------------+
+5 rows in set (0.00 sec)
+
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(101,10,1015,"2017-AUG-16","2017-AUG-22");
+ERROR 1292 (22007): Incorrect date value: '2017-AUG-16' for column 'DATE_OUT' at row 1
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(101,10,1015,"2017-08-16","2017-08-22");
+Query OK, 1 row affected (0.05 sec)
+
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(101,11,1013,"2017-08-14","2017-08-20");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(102,10,1077,"2017-08-18","2017-08-24");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(103,12,1086,"2017-08-01","2017-08-08");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(104,13,1070,"2017-08-15","2017-08-21");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(105,12,1011,"2017-01-16","2017-01-22");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_LENDING  VALUES(103,13,1092,"2017-02-15","2017-01-21");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM BOOK_LENDING;
++---------+--------------+---------+------------+------------+
+| BOOK_ID | PROGRAMME_ID | CARD_NO | DATE_OUT   | DUE_DATE   |
++---------+--------------+---------+------------+------------+
+|     101 |           10 |    1015 | 2017-08-16 | 2017-08-22 |
+|     101 |           11 |    1013 | 2017-08-14 | 2017-08-20 |
+|     102 |           10 |    1077 | 2017-08-18 | 2017-08-24 |
+|     103 |           12 |    1086 | 2017-08-01 | 2017-08-08 |
+|     103 |           13 |    1092 | 2017-02-15 | 2017-01-21 |
+|     104 |           13 |    1070 | 2017-08-15 | 2017-08-21 |
+|     105 |           12 |    1011 | 2017-01-16 | 2017-01-22 |
++---------+--------------+---------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> UPDATE BOOK_LENDING SET DUE_DATE="2017-02-21" WHERE CARD_NO=1092;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM BOOK_LENDING;
++---------+--------------+---------+------------+------------+
+| BOOK_ID | PROGRAMME_ID | CARD_NO | DATE_OUT   | DUE_DATE   |
++---------+--------------+---------+------------+------------+
+|     101 |           10 |    1015 | 2017-08-16 | 2017-08-22 |
+|     101 |           11 |    1013 | 2017-08-14 | 2017-08-20 |
+|     102 |           10 |    1077 | 2017-08-18 | 2017-08-24 |
+|     103 |           12 |    1086 | 2017-08-01 | 2017-08-08 |
+|     103 |           13 |    1092 | 2017-02-15 | 2017-02-21 |
+|     104 |           13 |    1070 | 2017-08-15 | 2017-08-21 |
+|     105 |           12 |    1011 | 2017-01-16 | 2017-01-22 |
++---------+--------------+---------+------------+------------+
+7 rows in set (0.01 sec)
+
+mysql> SELECT * FROM BOOK;
++---------+-------+----------------+----------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------+----------------+----------+
+|     101 | DBMS  | SBC            |     2014 |
+|     102 | ADE   | PEARSON        |     2016 |
+|     103 | DS    | PEARSON        |     2016 |
+|     104 | NET   | SBC            |     2016 |
+|     105 | JAVA  | SBC            |     2013 |
++---------+-------+----------------+----------+
+5 rows in set (1.40 sec)
+
+mysql> SELECT * FROM BOOK_AUTHOR;
++---------+-------------+
+| BOOK_ID | AUTHOR_NAME |
++---------+-------------+
+|     101 | RAHUL       |
+|     102 | RAMEZ       |
+|     103 | JOHN        |
+|     104 | PRIYA       |
+|     105 | DANCY       |
++---------+-------------+
+5 rows in set (0.07 sec)
+
+mysql> SELECT * FROM BOOK, BOOK_AUTHOR;
++---------+-------+----------------+----------+---------+-------------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR | BOOK_ID | AUTHOR_NAME |
++---------+-------+----------------+----------+---------+-------------+
+|     101 | DBMS  | SBC            |     2014 |     101 | RAHUL       |
+|     102 | ADE   | PEARSON        |     2016 |     101 | RAHUL       |
+|     103 | DS    | PEARSON        |     2016 |     101 | RAHUL       |
+|     104 | NET   | SBC            |     2016 |     101 | RAHUL       |
+|     105 | JAVA  | SBC            |     2013 |     101 | RAHUL       |
+|     101 | DBMS  | SBC            |     2014 |     102 | RAMEZ       |
+|     102 | ADE   | PEARSON        |     2016 |     102 | RAMEZ       |
+|     103 | DS    | PEARSON        |     2016 |     102 | RAMEZ       |
+|     104 | NET   | SBC            |     2016 |     102 | RAMEZ       |
+|     105 | JAVA  | SBC            |     2013 |     102 | RAMEZ       |
+|     101 | DBMS  | SBC            |     2014 |     103 | JOHN        |
+|     102 | ADE   | PEARSON        |     2016 |     103 | JOHN        |
+|     103 | DS    | PEARSON        |     2016 |     103 | JOHN        |
+|     104 | NET   | SBC            |     2016 |     103 | JOHN        |
+|     105 | JAVA  | SBC            |     2013 |     103 | JOHN        |
+|     101 | DBMS  | SBC            |     2014 |     104 | PRIYA       |
+|     102 | ADE   | PEARSON        |     2016 |     104 | PRIYA       |
+|     103 | DS    | PEARSON        |     2016 |     104 | PRIYA       |
+|     104 | NET   | SBC            |     2016 |     104 | PRIYA       |
+|     105 | JAVA  | SBC            |     2013 |     104 | PRIYA       |
+|     101 | DBMS  | SBC            |     2014 |     105 | DANCY       |
+|     102 | ADE   | PEARSON        |     2016 |     105 | DANCY       |
+|     103 | DS    | PEARSON        |     2016 |     105 | DANCY       |
+|     104 | NET   | SBC            |     2016 |     105 | DANCY       |
+|     105 | JAVA  | SBC            |     2013 |     105 | DANCY       |
++---------+-------+----------------+----------+---------+-------------+
+25 rows in set (0.10 sec)
+
+mysql> SELECT * FROM BOOK, BOOK_AUTHOR WHERE   BOOK_ID=BOOK_ID;
+ERROR 1052 (23000): Column 'BOOK_ID' in where clause is ambiguous
+
+mysql> SELECT * FROM BOOK, BOOK_AUTHOR WHERE   BOOK.BOOK_ID=BOOK_AUTHOR.BOOK_ID;
++---------+-------+----------------+----------+---------+-------------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR | BOOK_ID | AUTHOR_NAME |
++---------+-------+----------------+----------+---------+-------------+
+|     101 | DBMS  | SBC            |     2014 |     101 | RAHUL       |
+|     102 | ADE   | PEARSON        |     2016 |     102 | RAMEZ       |
+|     103 | DS    | PEARSON        |     2016 |     103 | JOHN        |
+|     104 | NET   | SBC            |     2016 |     104 | PRIYA       |
+|     105 | JAVA  | SBC            |     2013 |     105 | DANCY       |
++---------+-------+----------------+----------+---------+-------------+
+5 rows in set (0.09 sec)
+
+mysql> SELECT * FROM BOOK, BOOK_AUTHOR WHERE   BOOK_AUTHOR.BOOK_ID=BOOK.BOOK_ID;
++---------+-------+----------------+----------+---------+-------------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR | BOOK_ID | AUTHOR_NAME |
++---------+-------+----------------+----------+---------+-------------+
+|     101 | DBMS  | SBC            |     2014 |     101 | RAHUL       |
+|     102 | ADE   | PEARSON        |     2016 |     102 | RAMEZ       |
+|     103 | DS    | PEARSON        |     2016 |     103 | JOHN        |
+|     104 | NET   | SBC            |     2016 |     104 | PRIYA       |
+|     105 | JAVA  | SBC            |     2013 |     105 | DANCY       |
++---------+-------+----------------+----------+---------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM  BOOK_AUTHOR,BOOK WHERE   BOOK_AUTHOR.BOOK_ID=BOOK.BOOK_ID;
++---------+-------------+---------+-------+----------------+----------+
+| BOOK_ID | AUTHOR_NAME | BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------------+---------+-------+----------------+----------+
+|     101 | RAHUL       |     101 | DBMS  | SBC            |     2014 |
+|     102 | RAMEZ       |     102 | ADE   | PEARSON        |     2016 |
+|     103 | JOHN        |     103 | DS    | PEARSON        |     2016 |
+|     104 | PRIYA       |     104 | NET   | SBC            |     2016 |
+|     105 | DANCY       |     105 | JAVA  | SBC            |     2013 |
++---------+-------------+---------+-------+----------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT BOOK_ID,AUTHOR_NAME,TITLE,PUBLISHER_NAME,PUB_YEAR FROM  BOOK_AUTHOR,BOOK WHERE   BOOK_AUTHOR.BOOK_ID=BOOK.BOOK_ID;
+ERROR 1052 (23000): Column 'BOOK_ID' in field list is ambiguous
+
+mysql> SELECT BOOK.BOOK_ID,AUTHOR_NAME,TITLE,PUBLISHER_NAME,PUB_YEAR FROM  BOOK_AUTHOR,BOOK WHERE   BOOK_AUTHOR.BOOK_ID=BOOK.BOOK_
+ID;
++---------+-------------+-------+----------------+----------+
+| BOOK_ID | AUTHOR_NAME | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------------+-------+----------------+----------+
+|     101 | RAHUL       | DBMS  | SBC            |     2014 |
+|     102 | RAMEZ       | ADE   | PEARSON        |     2016 |
+|     103 | JOHN        | DS    | PEARSON        |     2016 |
+|     104 | PRIYA       | NET   | SBC            |     2016 |
+|     105 | DANCY       | JAVA  | SBC            |     2013 |
++---------+-------------+-------+----------------+----------+
+5 rows in set (0.01 sec)
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+11-NOV-2021:
+==============================================================================================================================
+
+mysql> SELECT BOOK.BOOK_ID,AUTHOR_NAME,TITLE,PUBLISHER_NAME,NO_OF_COPIES FROM BOOK,BOOK_AUTHOR,BOOK_COPIES WHERE BOOK_AUTHOR.BOOK_ID=BOOK
++---------+-------------+-------+----------------+--------------+
+| BOOK_ID | AUTHOR_NAME | TITLE | PUBLISHER_NAME | NO_OF_COPIES |
++---------+-------------+-------+----------------+--------------+
+|     101 | RAHUL       | DBMS  | SBC            |          200 |
+|     101 | RAHUL       | DBMS  | SBC            |          500 |
+|     102 | RAMEZ       | ADE   | PEARSON        |          400 |
+|     103 | JOHN        | DS    | PEARSON        |          700 |
+|     103 | JOHN        | DS    | PEARSON        |          600 |
++---------+-------------+-------+----------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT BOOK.BOOK_ID,AUTHOR_NAME,TITLE,PUBLISHER_NAME,NO_OF_COPIES FROM BOOK,BOOK_AUTHOR,BOOK_COPIES WHERE BOOK_AUTHOR.BOOK_ID=BOOK.BOOK_ID &&  BOOK.BOOK_ID=BOOK_COPIES.BOOK_ID;
++---------+-------------+-------+----------------+--------------+
+| BOOK_ID | AUTHOR_NAME | TITLE | PUBLISHER_NAME | NO_OF_COPIES |
++---------+-------------+-------+----------------+--------------+
+|     101 | RAHUL       | DBMS  | SBC            |          200 |
+|     101 | RAHUL       | DBMS  | SBC            |          500 |
+|     102 | RAMEZ       | ADE   | PEARSON        |          400 |
+|     103 | JOHN        | DS    | PEARSON        |          700 |
+|     103 | JOHN        | DS    | PEARSON        |          600 |
++---------+-------------+-------+----------------+--------------+
+5 rows in set (0.00 sec)
+mysql> SELECT COUNT(*) FROM BOOK;
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.03 sec)
+
+mysql> SELECT COUNT(*) FROM BOOK_COPIES;
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM BOOK WHERE PUBLISHER_NAME=PEARSOM;
+ERROR 1054 (42S22): Unknown column 'PEARSOM' in 'where clause'
+
+mysql> SELECT * FROM BOOK WHERE PUBLISHER_NAME='PEARSON';
++---------+-------+----------------+----------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------+----------------+----------+
+|     102 | ADE   | PEARSON        |     2016 |
+|     103 | DS    | PEARSON        |     2016 |
++---------+-------+----------------+----------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT COUNT(BOOK_ID) FROM BOOK ;
++----------------+
+| COUNT(BOOK_ID) |
++----------------+
+|              5 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(BOOK_ID,TITLE) FROM BOOK ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TITLE) FROM BOOK' at line 1
+
+mysql> SELECT * FROM BOOK_LENDING;
++---------+--------------+---------+------------+------------+
+| BOOK_ID | PROGRAMME_ID | CARD_NO | DATE_OUT   | DUE_DATE   |
++---------+--------------+---------+------------+------------+
+|     101 |           10 |    1015 | 2017-08-16 | 2017-08-22 |
+|     101 |           11 |    1013 | 2017-08-14 | 2017-08-20 |
+|     102 |           10 |    1077 | 2017-08-18 | 2017-08-24 |
+|     103 |           12 |    1086 | 2017-08-01 | 2017-08-08 |
+|     103 |           13 |    1092 | 2017-02-15 | 2017-02-21 |
+|     104 |           13 |    1070 | 2017-08-15 | 2017-08-21 |
+|     105 |           12 |    1011 | 2017-01-16 | 2017-01-22 |
++---------+--------------+---------+------------+------------+
+7 rows in set (0.05 sec)
+
+mysql> SELECT BOOK_ID ,COUNT(BOOK_ID)FROM BOOK_LENDING GROUP BY BOOK_ID;
++---------+----------------+
+| BOOK_ID | COUNT(BOOK_ID) |
++---------+----------------+
+|     101 |              2 |
+|     102 |              1 |
+|     103 |              2 |
+|     104 |              1 |
+|     105 |              1 |
++---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT BOOK_ID ,COUNT(BOOK_ID)FROM BOOK_LENDING GROUP BY BOOK_ID HAVING COUNT(BOOK_ID)>=2;
++---------+----------------+
+| BOOK_ID | COUNT(BOOK_ID) |
++---------+----------------+
+|     101 |              2 |
+|     103 |              2 |
++---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM BOOK WHERE BOOK_ID='105';
+
+mysql> SELECT * FROM BOOK;
++---------+-------+----------------+----------+
+| BOOK_ID | TITLE | PUBLISHER_NAME | PUB_YEAR |
++---------+-------+----------------+----------+
+|     101 | DBMS  | SBC            |     2014 |
+|     102 | ADE   | PEARSON        |     2016 |
+|     103 | DS    | PEARSON        |     2016 |
+|     104 | NET   | SBC            |     2016 |
++---------+-------+----------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BOOK_AUTHOR;
++---------+-------------+
+| BOOK_ID | AUTHOR_NAME |
++---------+-------------+
+|     101 | RAHUL       |
+|     102 | RAMEZ       |
+|     103 | JOHN        |
+|     104 | PRIYA       |
++---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT SUM(NO_OF_COPIES) FROM BOOK_COPIES;
++-------------------+
+| SUM(NO_OF_COPIES) |
++-------------------+
+|              2400 |
++-------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT * FROM BOOK_COPIES;
++---------+--------------+--------------+
+| BOOK_ID | PROGRAMME_ID | NO_OF_COPIES |
++---------+--------------+--------------+
+|     101 |           10 |          200 |
+|     101 |           11 |          500 |
+|     102 |           11 |          400 |
+|     103 |           11 |          700 |
+|     103 |           12 |          600 |
++---------+--------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT BOOK_ID,SUM(NO_OF_COPIES) FROM BOOK_COPIES GROUP BY BOOK_ID;
++---------+-------------------+
+| BOOK_ID | SUM(NO_OF_COPIES) |
++---------+-------------------+
+|     101 |               700 |
+|     102 |               400 |
+|     103 |              1300 |
++---------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE VIEW TOTAL_COPIES (BOOK_ID,TOTAL_NO_COPIES) AS SELECT BOOK_ID,SUM(NO_OF_COPIES) FROM BOOK_COPIES GROUP BY BOOK_ID;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SELECT * FROM TOTAL_COPIES;
++---------+-----------------+
+| BOOK_ID | TOTAL_NO_COPIES |
++---------+-----------------+
+|     101 |             700 |
+|     102 |             400 |
+|     103 |            1300 |
++---------+-----------------+
+3 rows in set (0.01 sec)
+
+ SELECT CARD_NO,COUNT(BOOK_ID) FROM BOOK_LENDING WHERE DATE_OUT BETWEEN '2017-01-01' AND '2017-06-30' GROUP BY CARD_NO HAVING COUNT(CARD_NO)>=2;
++---------+----------------+
+| CARD_NO | COUNT(BOOK_ID) |
++---------+----------------+
+|    1011 |              2 |
++---------+----------------+
+1 row in set (0.26 sec)
+
+
+==============================================================================================================================
+18 NOV 2021:
+===============================================================================================================================
+
+mysql> USE Library_5CS1_B
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql> CREATE TABLE TEST2(ID INT,NAME VARCHAR(20),YEAR INT,PRIMARY KEY(ID,YEAR));
+Query OK, 0 rows affected (1.55 sec)
+
+mysql> INSERT INTO TEST2 VALUES(101,"SS1",2020);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO TEST2 VALUES(102,"SS2",2022);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO TEST2 VALUES(103,"SS3",2019);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO TEST2 VALUES(104,"SS4",2021);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM TEST2;
++-----+------+------+
+| ID  | NAME | YEAR |
++-----+------+------+
+| 101 | SS1  | 2020 |
+| 102 | SS2  | 2022 |
+| 103 | SS3  | 2019 |
+| 104 | SS4  | 2021 |
++-----+------+------+
+4 rows in set (0.02 sec)
+
+mysql> ALTER TABLE TEST2 PARTITION BY RANGE(YEAR)(PARTITION PI VALUES LESS THAN(2021),PARTITION P2 VALUES LESS THAN (2023));
+Query OK, 4 rows affected (1.75 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM TEST2 P1;
++-----+------+------+
+| ID  | NAME | YEAR |
++-----+------+------+
+| 101 | SS1  | 2020 |
+| 103 | SS3  | 2019 |
+| 102 | SS2  | 2022 |
+| 104 | SS4  | 2021 |
++-----+------+------+
+4 rows in set (0.00 sec)
+
+
+mysql> DESC TEST2 P1;
+Empty set (0.00 sec)
+
+mysql> DROP TABLE TEST2;
+----------------------------------------------------
+
+mysql> CREATE TABLE TEST2(ID INT,NAME VARCHAR(20),YEAR INT,PRIMARY KEY(ID,YEAR))PARTITION BY RANGE(YEAR)(PARTITION PI VALUES LESS THAN(2021),PARTITION P2 VALUES LESS THAN (2023));
+Query OK, 0 rows affected (0.42 sec)
+
+mysql>  INSERT INTO TEST2 VALUES(101,"SS1",2020);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO TEST2 VALUES(102,"SS2",2022);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO TEST2 VALUES(103,"SS3",2019);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO TEST2 VALUES(104,"SS4",2021);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SELECT * FROM TEST2 P1;
++-----+------+------+
+| ID  | NAME | YEAR |
++-----+------+------+
+| 101 | SS1  | 2020 |
+| 103 | SS3  | 2019 |
+| 102 | SS2  | 2022 |
+| 104 | SS4  | 2021 |
++-----+------+------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM TEST2 PARTITION(P2);
++-----+------+------+
+| ID  | NAME | YEAR |
++-----+------+------+
+| 102 | SS2  | 2022 |
+| 104 | SS4  | 2021 |
++-----+------+------+
+2 rows in set (0.16 sec)
+
+mysql> SELECT * FROM TEST2 PARTITION(PI);
++-----+------+------+
+| ID  | NAME | YEAR |
++-----+------+------+
+| 101 | SS1  | 2020 |
+| 103 | SS3  | 2019 |
++-----+------+------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE BOOK_PARTITION(BOOK_ID INT,TITLE  VARCHAR(20),PUB_NAME VARCHAR(20),PUB_YEAR INT,PRIMARY KEY(BOOK_ID,PUB_YEAR))
+;
+Query OK, 0 rows affected (0.71 sec)
+
+mysql> INSERT INTO BOOK_PARTITION VALUES(101,"DBMS","SBC",2020);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> INSERT INTO BOOK_PARTITION VALUES(102,"ADE","PEARSON",2021);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO BOOK_PARTITION VALUES(103,"DS","PEARSON",2019);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO BOOK_PARTITIONmysql> SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE";
++------------+
+| AVG(GRADE) |
++------------+
+|     1.6667 |
++------------+
+1 row in set (0.99 sec)
+
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>AVG(GRADE);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>AVG(GRADE);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>AVG(GRADE) GROUP BY GRADE;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>AVG(GRADE) GROUP BY GRADE;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE.CUSTOMER>AVG(GRADE) GROUP BY GRADE;
+ERROR 1054 (42S22): Unknown column 'GRADE.CUSTOMER' in 'where clause'
+mysql> 
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE CUSTOMER.GRADE>AVG(GRADE) GROUP BY GRADE;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>1.6667 GROUP BY GRADE;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column '5CS1_B2_ORDER.CUSTOMER.CUSTOMER_ID' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> 
+mysql> SELECT COUNT(GRADE),CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>1.6667 ;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column '5CS1_B2_ORDER.CUSTOMER.CUSTOMER_ID'; this is incompatible with sql_mode=only_full_group_by
+mysql> 
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>1.6667 ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2002 | BANGALORE |
+|        2003 | BANGALORE |
+|        2004 | MANGALORE |
++-------------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2002 | BANGALORE |
+|        2003 | BANGALORE |
+|        2004 | MANGALORE |
++-------------+-----------+
+3 rows in set (0.17 sec)
+
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") AND CITY!="BANGALORE" ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2004 | MANGALORE |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> 
+ VALUES(104,"NET","SBC",2021);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO BOOK_PARTITION VALUES(105,"JAVA","SBC",2024);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM BOOK_PARTITION;
++---------+-------+----------+----------+
+| BOOK_ID | TITLE | PUB_NAME | PUB_YEAR |
++---------+-------+----------+----------+
+|     101 | DBMS  | SBC      |     2020 |
+|     102 | ADE   | PEARSON  |     2021 |
+|     103 | DS    | PEARSON  |     2019 |
+|     104 | NET   | SBC      |     2021 |
+|     105 | JAVA  | SBC      |     2024 |
++---------+-------+----------+----------+
+5 rows in set (0.01 sec)
+
+mysql> ALTER TABLE BOOK_PARTITION PARTITION BY RANGE(PUB_YEAR)(PARTITION P1 VALUES LESS THAN(2021),PARTITION P2 VALUES LESS THAN(2023),PARTITION P3 VALUES LESS THAN(2025));
+Query OK, 5 rows affected (1.60 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM BOOK_PARTITION PARTITION(P1);
++---------+-------+----------+----------+
+| BOOK_ID | TITLE | PUB_NAME | PUB_YEAR |
++---------+-------+----------+----------+
+|     101 | DBMS  | SBC      |     2020 |
+|     103 | DS    | PEARSON  |     2019 |
++---------+-------+----------+----------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT * FROM BOOK_PARTITION PARTITION(P2);
++---------+-------+----------+----------+
+| BOOK_ID | TITLE | PUB_NAME | PUB_YEAR |
++---------+-------+----------+----------+
+|     102 | ADE   | PEARSON  |     2021 |
+|     104 | NET   | SBC      |     2021 |
++---------+-------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BOOK_PARTITION PARTITION(P3);
++---------+-------+----------+----------+
+| BOOK_ID | TITLE | PUB_NAME | PUB_YEAR |
++---------+-------+----------+----------+
+|     105 | JAVA  | SBC      |     2024 |
++---------+-------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM BOOK_PARTITION;
++---------+-------+----------+----------+
+| BOOK_ID | TITLE | PUB_NAME | PUB_YEAR |
++---------+-------+----------+----------+
+|     101 | DBMS  | SBC      |     2020 |
+|     103 | DS    | PEARSON  |     2019 |
+|     102 | ADE   | PEARSON  |     2021 |
+|     104 | NET   | SBC      |     2021 |
+|     105 | JAVA  | SBC      |     2024 |
++---------+-------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+
