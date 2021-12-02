@@ -1,0 +1,815 @@
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_5CS1_B2_ORDER |
++-------------------------+
+| CUSTOMER                |
+| ORDERS                  |
+| SALESMAN                |
++-------------------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO SALESMAN(1000,"JOHN","BANGALORE",2000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1000,"JOHN","BANGALORE",2000)' at line 1
+mysql> INSERT INTO SALESMAN VALUES(1000,"JOHN","BANGALORE",2000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO SALESMAN VALUES(1001,"GEORGE","MANGALORE",1000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO SALESMAN VALUES(1002,"RAMESH","BANGALORE",800);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO SALESMAN VALUES(1004,"RAMEZ","MANGALORE",1500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SALESMAN VALUES(1003,"ALBERT","CHENNAI",800);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> UPDATE SALESMAN SET SALESMAN_ID="1005" WHERE CUST_NAME="ALBERT";
+ERROR 1054 (42S22): Unknown column 'CUST_NAME' in 'where clause'
+mysql> UPDATE SALESMAN SET SALESMAN_ID="1005" WHERE NAME="ALBERT";
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE SALESMAN SET SALESMAN_ID="1003" WHERE NAME="RAMEZ";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE SALESMAN SET SALESMAN_ID="1004" WHERE NAME="ALBERT";
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM SALESMAN;
++-------------+--------+-----------+------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION |
++-------------+--------+-----------+------------+
+|        1000 | JOHN   | BANGALORE |       2000 |
+|        1001 | GEORGE | MANGALORE |       1000 |
+|        1002 | RAMESH | BANGALORE |        800 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |
+|        1004 | ALBERT | CHENNAI   |        800 |
++-------------+--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2000,"ANIL","MANGALORE",1,1000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2001,"ROY","BANGALORE",1,1000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2002,"JOHN","BANGALORE",2,1004);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2003,"JOHN","BANGALORE",2,1000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2004,"RAM","MANGALORE",2,1002);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT * FROM CUSTOMER;
++-------------+-----------+-----------+-------+-------------+
+| CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+-----------+-----------+-------+-------------+
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+-----------+-----------+-------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO ORDERS VALUES(101,7000,"2017-08-21",2002,1004);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO ORDERS VALUES(102,3000,"2017-08-17",2001,1000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO ORDERS VALUES(105,8000,"2017-08-17",2000,1000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO ORDERS VALUES(108,9000,"2017-08-17",2000,1000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO ORDERS VALUES(111,5000,"2017-08-29",2000,1000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO ORDERS VALUES(121,5900,"2017-08-29",2003,1000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO ORDERS VALUES(221,5970,"2017-08-29",2004,1002);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO ORDERS VALUES(991,5970,"2017-10-01",2002,1003);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> UPDATE SALESMAN SET ORDER_DATE="2017-08-21" WHERE ORDER_NO=102;
+ERROR 1054 (42S22): Unknown column 'ORDER_NO' in 'where clause'
+mysql> SELECT * FROM ORDERS;
++----------+-------------+------------+-------------+-------------+
+| ORDER_NO | PURCHASE_NO | ORDER_DATE | CUSTOMER_ID | SALESMAN_ID |
++----------+-------------+------------+-------------+-------------+
+|      101 |        7000 | 2017-08-21 |        2002 |        1004 |
+|      102 |        3000 | 2017-08-17 |        2001 |        1000 |
+|      105 |        8000 | 2017-08-17 |        2000 |        1000 |
+|      108 |        9000 | 2017-08-17 |        2000 |        1000 |
+|      111 |        5000 | 2017-08-29 |        2000 |        1000 |
+|      121 |        5900 | 2017-08-29 |        2003 |        1000 |
+|      221 |        5970 | 2017-08-29 |        2004 |        1002 |
+|      991 |        5970 | 2017-10-01 |        2002 |        1003 |
++----------+-------------+------------+-------------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> UPDATE SALESMAN SET ORDER_DATE="2017-08-21" WHERE ORDER_NO="102";
+ERROR 1054 (42S22): Unknown column 'ORDER_NO' in 'where clause'
+mysql> 
+mysql> UPDATE SALESMAN SET ORDER_DATE="2017-08-21" WHERE PURCHASE_NO=3000;
+ERROR 1054 (42S22): Unknown column 'PURCHASE_NO' in 'where clause'
+mysql> UPDATE ORDERS SET ORDER_DATE="2017-08-21" WHERE ORDER_NO="102";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE ORDERS SET ORDER_DATE="2017-08-21" WHERE ORDER_NO="105";
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE ORDERS SET ORDER_DATE="2017-08-21" WHERE ORDER_NO="108";
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM ORDERS;
++----------+-------------+------------+-------------+-------------+
+| ORDER_NO | PURCHASE_NO | ORDER_DATE | CUSTOMER_ID | SALESMAN_ID |
++----------+-------------+------------+-------------+-------------+
+|      101 |        7000 | 2017-08-21 |        2002 |        1004 |
+|      102 |        3000 | 2017-08-21 |        2001 |        1000 |
+|      105 |        8000 | 2017-08-21 |        2000 |        1000 |
+|      108 |        9000 | 2017-08-21 |        2000 |        1000 |
+|      111 |        5000 | 2017-08-29 |        2000 |        1000 |
+|      121 |        5900 | 2017-08-29 |        2003 |        1000 |
+|      221 |        5970 | 2017-08-29 |        2004 |        1002 |
+|      991 |        5970 | 2017-10-01 |        2002 |        1003 |
++----------+-------------+------------+-------------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> 
+================================================================================================================================
+25-11-2021:
+=====================================================================================================================================
+
+mysql> SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE";
++------------+
+| AVG(GRADE) |
++------------+
+|     1.6667 |
++------------+
+1 row in set (0.99 sec)
+
+
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>1.6667 ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2002 | BANGALORE |
+|        2003 | BANGALORE |
+|        2004 | MANGALORE |
++-------------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2002 | BANGALORE |
+|        2003 | BANGALORE |
+|        2004 | MANGALORE |
++-------------+-----------+
+3 rows in set (0.17 sec)
+
+mysql> SELECT CUSTOMER_ID,CITY FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") AND CITY!="BANGALORE" ;
++-------------+-----------+
+| CUSTOMER_ID | CITY      |
++-------------+-----------+
+|        2004 | MANGALORE |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(CUSTOMER_ID) FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") AND CITY!="BAN
+GALORE" ;
++--------------------+
+| COUNT(CUSTOMER_ID) |
++--------------------+
+|                  1 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1002 | RAMESH | BANGALORE |        800 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+25 rows in set (0.07 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY==CUSTOMER.CITY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '==CUSTOMER.CITY' at line 1
+mysql> 
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1002 | RAMESH | BANGALORE |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
+|        1000 |
+|        1001 |
+|        1001 |
+|        1002 |
+|        1002 |
+|        1002 |
+|        1003 |
+|        1003 |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
++-------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT *  WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID' at line 1
+mysql> SELECT * FROM SALESMAN,CUSTOMER  WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+-------------+
+| SALESMAN_ID | CUSTOMER_ID |
++-------------+-------------+
+|        1000 |        2001 |
+|        1000 |        2003 |
++-------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY!=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+-------------+
+| SALESMAN_ID | CUSTOMER_ID |mysql> SELECT COUNT(CUSTOMER_ID) FROM CUSTOMER WHERE GRADE>(SELECT AVG(GRADE) FROM CUSTOMER WHERE CITY="BANGALORE") AND CITY!="BAN
+GALORE" ;
++--------------------+
+| COUNT(CUSTOMER_ID) |
++--------------------+
+|                  1 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1002 | RAMESH | BANGALORE |        800 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+25 rows in set (0.07 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY==CUSTOMER.CITY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '==CUSTOMER.CITY' at line 1
+mysql> 
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1001 | GEORGE | MANGALORE |       1000 |        2004 | RAM       | MANGALORE |     2 |        1002 |
+|        1002 | RAMESH | BANGALORE |        800 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1003 | RAMEZ  | MANGALORE |       1500 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
+|        1000 |
+|        1001 |
+|        1001 |
+|        1002 |
+|        1002 |
+|        1002 |
+|        1003 |
+|        1003 |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
++-------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT *  WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID' at line 1
+mysql> SELECT * FROM SALESMAN,CUSTOMER  WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1000 | JOHN | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
++-------------+------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1000 |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+-------------+
+| SALESMAN_ID | CUSTOMER_ID |
++-------------+-------------+
+|        1000 |        2001 |
+|        1000 |        2003 |
++-------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.CITY!=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+-------------+
+| SALESMAN_ID | CUSTOMER_ID |
++-------------+-------------+
+|        1000 |        2000 |
+|        1004 |        2002 |
+|        1002 |        2004 |
++-------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER  WHERE SALESMAN.CITY!=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT NAME,SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
+ERROR 1052 (23000): Column 'SALESMAN_ID' in field list is ambiguous
+mysql> 
+mysql> SELECT NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++--------+-------------+
+| NAME   | SALESMAN_ID |
++--------+-------------+
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| RAMESH |        1002 |
+| ALBERT |        1004 |
++--------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT CUSTOMER.CUSTOMER_ID,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+-------------+
+| CUSTOMER_ID | SALESMAN_ID |
++-------------+-------------+
+|        2000 |        1000 |
+|        2001 |        1000 |
+|        2003 |        1000 |
+|        2004 |        1002 |
+|        2002 |        1004 |
++-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID ;
++--------+-------------+
+| NAME   | SALESMAN_ID |
++--------+-------------+
+| JOHN   |        1000 |
+| RAMESH |        1002 |
+| ALBERT |        1004 |
++--------+-------------+
+3 rows in set (0.06 sec)
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID HAVING COUNT(SALESMAN_ID)>1 ;
+ERROR 1052 (23000): Column 'SALESMAN_ID' in having clause is ambiguous
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID HAVING COUNT(SALESMAN.SALESMAN_ID)>1 ;
++------+-------------+
+| NAME | SALESMAN_ID |
++------+-------------+
+| JOHN |        1000 |
++------+-------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID HAVING COUNT(CUSTOMER_ID)>1 ;
++------+-------------+
+| NAME | SALESMAN_ID |
++------+-------------+
+| JOHN |        1000 |
++------+-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
++-------------+-------------+
+|        1000 |        2000 |
+|        1004 |        2002 |
+|        1002 |        2004 |
++-------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER  WHERE SALESMAN.CITY!=CUSTOMER.CITY AND SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT NAME,SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
+ERROR 1052 (23000): Column 'SALESMAN_ID' in field list is ambiguous
+mysql> 
+mysql> SELECT NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++--------+-------------+
+| NAME   | SALESMAN_ID |
++--------+-------------+
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| RAMESH |        1002 |
+| ALBERT |        1004 |
++--------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+| SALESMAN_ID | NAME   | CITY      | COMMISSION | CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+|        1000 | JOHN   | BANGALORE |       2000 |        2000 | ANIL      | MANGALORE |     1 |        1000 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2001 | ROY       | BANGALORE |     1 |        1000 |
+|        1004 | ALBERT | CHENNAI   |        800 |        2002 | JOHN      | BANGALORE |     2 |        1004 |
+|        1000 | JOHN   | BANGALORE |       2000 |        2003 | JOHN      | BANGALORE |     2 |        1000 |
+|        1002 | RAMESH | BANGALORE |        800 |        2004 | RAM       | MANGALORE |     2 |        1002 |
++-------------+--------+-----------+------------+-------------+-----------+-----------+-------+-------------+
+5 rows in set (0.00 sec)
+
+
+
+QUERY:::
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID;
++--------+-------------+
+| NAME   | SALESMAN_ID |
++--------+-------------+
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| JOHN   |        1000 |
+| RAMESH |        1002 |
+| ALBERT |        1004 |
++--------+-------------+
+5 rows in set (0.00 sec)
+
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID ;
++--------+-------------+
+| NAME   | SALESMAN_ID |
++--------+-------------+
+| JOHN   |        1000 |
+| RAMESH |        1002 |
+| ALBERT |        1004 |
++--------+-------------+
+3 rows in set (0.06 sec)
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID HAVING COUNT(SALESMAN_ID)>1 ;
+ERROR 1052 (23000): Column 'SALESMAN_ID' in having clause is ambiguous
+
+
+mysql> SELECT SALESMAN.NAME,SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID GROUP BY SALESMAN_ID HAVING COUNT(CUSTOMER_ID)>1 ;
++------+-------------+
+| NAME | SALESMAN_ID |
++------+-------------+
+| JOHN |        1000 |
++------+-------------+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> (SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID AND SALESMAN.CITY=CUSTOMER.CITY) UNION (SELECT SALESMAN.SALESMAN_ID,CUSTOMER.CUSTOMER_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID AND SALESMAN.CITY!=CUSTOMER.CITY);
++-------------+-------------+
+| SALESMAN_ID | CUSTOMER_ID |
++-------------+-------------+
+|        1000 |        2001 |
+|        1000 |        2003 |
+|        1000 |        2000 |
+|        1004 |        2002 |
+|        1002 |        2004 |
++-------------+-------------+
+5 rows in set (0.02 sec)
+
+
+mysql> (SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID AND SALESMAN.CITY=CUSTOMER.CITY) UNION (SELECT SALESMAN.SALESMAN_ID FROM SALESMAN,CUSTOMER WHERE SALESMAN.SALESMAN_ID=CUSTOMER.SALESMAN_ID AND SALESMAN.CITY!=CUSTOMER.CITY);
++-------------+
+| SALESMAN_ID |
++-------------+
+|        1000 |
+|        1004 |
+|        1002 |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM ORDERS;
++----------+-------------+------------+-------------+-------------+
+| ORDER_NO | PURCHASE_NO | ORDER_DATE | CUSTOMER_ID | SALESMAN_ID |
++----------+-------------+------------+-------------+-------------+
+|      101 |        7000 | 2017-08-21 |        2002 |        1004 |
+|      102 |        3000 | 2017-08-21 |        2001 |        1000 |
+|      105 |        8000 | 2017-08-21 |        2000 |        1000 |
+|      108 |        9000 | 2017-08-21 |        2000 |        1000 |
+|      111 |        5000 | 2017-08-29 |        2000 |        1000 |
+|      121 |        5900 | 2017-08-29 |        2003 |        1000 |
+|      221 |        5970 | 2017-08-29 |        2004 |        1002 |
+|      991 |        5970 | 2017-10-01 |        2002 |        1003 |
++----------+-------------+------------+-------------+-------------+
+8 rows in set (0.02 sec)
+
+mysql> ALTER TABLE ORDERS CHANGE COLUMN PURCHASE_NO PURCHASE_AMT INT ;
+Query OK, 0 rows affected (0.63 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM ORDERS;
++----------+--------------+------------+-------------+-------------+
+| ORDER_NO | PURCHASE_AMT | ORDER_DATE | CUSTOMER_ID | SALESMAN_ID |
++----------+--------------+------------+-------------+-------------+
+|      101 |         7000 | 2017-08-21 |        2002 |        1004 |
+|      102 |         3000 | 2017-08-21 |        2001 |        1000 |
+|      105 |         8000 | 2017-08-21 |        2000 |        1000 |
+|      108 |         9000 | 2017-08-21 |        2000 |        1000 |
+|      111 |         5000 | 2017-08-29 |        2000 |        1000 |
+|      121 |         5900 | 2017-08-29 |        2003 |        1000 |
+|      221 |         5970 | 2017-08-29 |        2004 |        1002 |
+|      991 |         5970 | 2017-10-01 |        2002 |        1003 |
++----------+--------------+------------+-------------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT CUSTOMER_ID,SUM(PURCHASE_AMT) FROM ORDERS GROUP BY CUSTOMER_ID;
++-------------+-------------------+
+| CUSTOMER_ID | SUM(PURCHASE_AMT) |
++-------------+-------------------+
+|        2000 |             22000 |
+|        2001 |              3000 |
+|        2002 |             12970 |
+|        2003 |              5900 |
+|        2004 |              5970 |
++-------------+-------------------+
+5 rows in set (0.00 sec)
+
+QUERY:::
+
+mysql> SELECT CUSTOMER_ID,SUM(PURCHASE_AMT),ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID,ORDER_;
+ERROR 1054 (42S22): Unknown column 'ORDER_' in 'group statement'
+mysql> SELECT CUSTOMER_ID,SUM(PURCHASE_AMT),ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID,ORDER_DATE;
++-------------+-------------------+------------+
+| CUSTOMER_ID | SUM(PURCHASE_AMT) | ORDER_DATE |
++-------------+-------------------+------------+
+|        2000 |             17000 | 2017-08-21 |
+|        2000 |              5000 | 2017-08-29 |
+|        2001 |              3000 | 2017-08-21 |
+|        2002 |              7000 | 2017-08-21 |
+|        2002 |              5970 | 2017-10-01 |
+|        2003 |              5900 | 2017-08-29 |
+|        2004 |              5970 | 2017-08-29 |
++-------------+-------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT CUSTOMER_ID,MAX(PURCHASE_AMT)),ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID,ORDER_DATE;
+ERROR 1111 (HY000): Invalid use of group function
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+02-DEC-2021
+==============================================================================================================================
+==============================================================================================================================
+mysql> SELECT MAX(PRD_AMT) FROM (SELECT CUSTOMER_ID,SUM(PURCHASE_AMT)PRD_AMT,ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID,ORDER_DATE) AS PRD_AMT;
++--------------+
+| MAX(PRD_AMT) |
++--------------+
+|        17000 |
++--------------+
+mysql>  SELECT CUSTOMER_ID FROM ORDERS GROUP BY ORDER_DATE, CUSTOMER_ID;
++-------------+
+| CUSTOMER_ID |
++-------------+
+|        2000 |
+|        2001 |
+|        2002 |
+|        2000 |
+|        2003 |
+|        2004 |
+|        2002 |
++-------------+
+7 rows in set (0.00 sec)
+
+mysql>  SELECT CUSTOMER_ID FROM ORDERS GROUP BY ORDER_DATE, CUSTOMER_ID HAVING SUM(PURCHASE_AMT)=(SELECT MAX(PRD_AMT)FROM (SELECT CUSTOMER_ID,SUM(PURCHASE_AMT)PRD_AMT,ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID,ORDER_DATE)AS PRD_AMT);
++-------------+
+| CUSTOMER_ID |
++-------------+
+|        2000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT * FROM CUSTOMER,SALESMAN;
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+| CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID | SALESMAN_ID | NAME   | CITY      | COMMISSION |
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1001 | GEORGE | MANGALORE |       1000 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1001 | GEORGE | MANGALORE |       1000 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1001 | GEORGE | MANGALORE |       1000 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1001 | GEORGE | MANGALORE |       1000 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1001 | GEORGE | MANGALORE |       1000 |
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1002 | RAMESH | BANGALORE |        800 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1002 | RAMESH | BANGALORE |        800 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1002 | RAMESH | BANGALORE |        800 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1002 | RAMESH | BANGALORE |        800 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1002 | RAMESH | BANGALORE |        800 |
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1003 | RAMEZ  | MANGALORE |       1500 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1003 | RAMEZ  | MANGALORE |       1500 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1003 | RAMEZ  | MANGALORE |       1500 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1003 | RAMEZ  | MANGALORE |       1500 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1003 | RAMEZ  | MANGALORE |       1500 |
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1004 | ALBERT | CHENNAI   |        800 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1004 | ALBERT | CHENNAI   |        800 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1004 | ALBERT | CHENNAI   |        800 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1004 | ALBERT | CHENNAI   |        800 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1004 | ALBERT | CHENNAI   |        800 |
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+25 rows in set (0.02 sec)
+
+mysql> SELECT * FROM CUSTOMER,SALESMAN WHERE CUSTOMER.CUSTOMER_ID=SALESMAN.SALESMAN_ID;
+Empty set (0.09 sec)
+
+mysql> SELECT * FROM CUSTOMER,SALESMAN WHERE CUSTOMER.SALESMAN_ID=SALESMAN.SALESMAN_ID;
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+| CUSTOMER_ID | CUST_NAME | CITY      | GRADE | SALESMAN_ID | SALESMAN_ID | NAME   | CITY      | COMMISSION |
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+|        2000 | ANIL      | MANGALORE |     1 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2001 | ROY       | BANGALORE |     1 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2002 | JOHN      | BANGALORE |     2 |        1004 |        1004 | ALBERT | CHENNAI   |        800 |
+|        2003 | JOHN      | BANGALORE |     2 |        1000 |        1000 | JOHN   | BANGALORE |       2000 |
+|        2004 | RAM       | MANGALORE |     2 |        1002 |        1002 | RAMESH | BANGALORE |        800 |
++-------------+-----------+-----------+-------+-------------+-------------+--------+-----------+------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT SALESMAN.SALESMAN_ID,NAME,SALESMAN.CITY FROM CUSTOMER,SALESMAN WHERE CUSTOMER.SALESMAN_ID=SALESMAN.SALESMAN_ID;
++-------------+--------+-----------+
+| SALESMAN_ID | NAME   | CITY      |
++-------------+--------+-----------+
+|        1000 | JOHN   | BANGALORE |
+|        1000 | JOHN   | BANGALORE |
+|        1000 | JOHN   | BANGALORE |
+|        1002 | RAMESH | BANGALORE |
+|        1004 | ALBERT | CHENNAI   |
++-------------+--------+-----------+
+5 rows in set (0.01 sec)
+-------
+mysql> CREATE VIEW HIGHEST_ORDER(SALESMAN_ID,ORDER_DATE)AS SELECT SALESMAN_ID,ORDER_DATE FROM ORDERS GROUP BY SALESMAN_ID;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SELECT * FROM HIGHEST_ORDER;
+------
+
++-------------+
+| CUSTOMER_ID |
++-------------+
+|        2000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE VIEW HIGHEST_AMT(SALESMAN_ID,NAME,CITY) AS SELECT SALESMAN.SALESMAN_ID,NAME,SALESMAN.CITY FROM SALESMAN,CUSTOMER WHERE CUSTOMER.SALESMAN_ID=SALESMAN.SALESMAN_ID AND CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM ORDERS GROUP BY ORDER_DATE,CUSTOMER_ID HAVING SUM(PURCHASE_AMT)=(SELECT MAX(PRD_AMT) FROM (SELECT CUSTOMER_ID,SUM(PURCHASE_AMT) PRD_AMT,ORDER_DATE FROM ORDERS GROUP BY CUSTOMER_ID, ORDER_DATE) AS PRD_AMT));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SELECT * FROM HIGHEST_AMT;
++-------------+------+-----------+
+| SALESMAN_ID | NAME | CITY      |
++-------------+------+-----------+
+|        1000 | JOHN | BANGALORE |
++-------------+------+-----------+
+1 row in set (0.04 sec)
+
+mysql> DELETE FROM SALESMAN WHERE SALESMAN_ID=1000;
+
+
+
