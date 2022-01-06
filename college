@@ -504,5 +504,38 @@ mysql> SELECT * FROM IAMARKS;
 | 4MT19CS044 | 18CS66  |    1 |    41 |    45 |    46 |       46 |
 +------------+---------+------+-------+-------+-------+----------+
 24 rows in set (0.00 sec)
+========================================================================================================================
+========================================================================================================================
+
+mysql> SELECT S.USN,S.NAME,I.FINAL_IA,(CASE WHEN FINAL_IA>=45 AND FINAL_IA<=50 THEN "OUTSTANDING" WHEN FINAL_IA>=40 AND FINAL_IA<=45 THEN "AVERAGE" WHEN FINAL_IA<40 THEN "WEAK" END) AS CAT FROM STUDENT S JOIN IAMARKS I ON S.USN=I.USN;
++------------+--------+----------+-------------+
+| USN        | NAME   | FINAL_IA | CAT         |
++------------+--------+----------+-------------+
+| 4MT19CS001 | RAJ    |       48 | OUTSTANDING |
+| 4MT19CS001 | RAJ    |       48 | OUTSTANDING |
+| 4MT19CS001 | RAJ    |       48 | OUTSTANDING |
+| 4MT19CS001 | RAJ    |       42 | AVERAGE     |
+| 4MT19CS001 | RAJ    |       45 | OUTSTANDING |
+| 4MT19CS001 | RAJ    |       45 | OUTSTANDING |
+| 4MT19CS003 | SAM    |       40 | AVERAGE     |
+| 4MT19CS003 | SAM    |       37 | WEAK        |
+| 4MT19CS003 | SAM    |       37 | WEAK        |
+| 4MT19CS003 | SAM    |       44 | AVERAGE     |
+| 4MT19CS003 | SAM    |       40 | AVERAGE     |
+| 4MT19CS003 | SAM    |       47 | OUTSTANDING |
+| 4MT19CS014 | CASEY  |       48 | OUTSTANDING |
+| 4MT19CS014 | CASEY  |       48 | OUTSTANDING |
+| 4MT19CS014 | CASEY  |       50 | OUTSTANDING |
+| 4MT19CS014 | CASEY  |       35 | WEAK        |
+| 4MT19CS014 | CASEY  |       39 | WEAK        |
+| 4MT19CS014 | CASEY  |       39 | WEAK        |
+| 4MT19CS044 | ASHNIL |       30 | WEAK        |
+| 4MT19CS044 | ASHNIL |       35 | WEAK        |
+| 4MT19CS044 | ASHNIL |       36 | WEAK        |
+| 4MT19CS044 | ASHNIL |       45 | OUTSTANDING |
+| 4MT19CS044 | ASHNIL |       41 | AVERAGE     |
+| 4MT19CS044 | ASHNIL |       46 | OUTSTANDING |
++------------+--------+----------+-------------+
+24 rows in set (0.06 sec)
 
 
